@@ -8,7 +8,7 @@ cd dotter
 ```
 2. Set your desired package manager in `main.py`
 ```
-nano main.py
+nano src/main.py
 ```
 3. Run the installation script
 ```
