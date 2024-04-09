@@ -14,3 +14,23 @@ nano main.py
 ```
 sudo ./install.sh
 ```
+# Usage
+## Installing packages
+1. Navigate into the directory where your `dotterfile` is stored
+2. Run ```dotter install```
+## Enable packages
+1. Get a list of all dotter packages installed
+```ls $HOME/dotter/pkgs```
+2. Enable the package
+```
+dotter enable PACKAGE
+```
+3. The package should now be enabled
+## Remove packages
+1. Get a list of all dotter packages installed
+```ls $HOME/dotter/pkgs```
+2. Remove the package
+```
+dotter remove PACKAGE
+```
+#THIS SOFTWARE COMES WITH NO WARRANTY
