@@ -33,4 +33,13 @@ dotter enable PACKAGE
 ```
 dotter remove PACKAGE
 ```
+# Creating dotterfiles
+Dotterfiles are hardcoded files that describe the location of files and their destination as well as the system dependencies required for your setup.
+As described in `example/dotter.py` the individual files are marked in a dictionary called `configs` which holds their information bound to the name of the submodule as the key.
+The `Name`variable stores the name of your package
+The `dependencies` array stores the system dependencies required for your package to work. They may differ from distro to distro.
+The `file` key describes where the file is located with the folder of the `dotterfile` as the parent directory.
+The `pkgdest` key describes the location the file will be placed once the package is activated with the `$HOME` of the user  as the parent directory
+
+
 # THIS PIECE OF SOFTWARE COMES WITH NO WARRANTY
