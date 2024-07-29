@@ -8,19 +8,19 @@ import pathlib
 
 #Select the package manager for your distro by uncommenting the relevant line
 
-#Archlinux
+#pacman
 #PACKAGE_MANAGER = 'sudo pacman -S'
 
-#Debian
+#dpkg
 #PACKAGE_MANAGER = 'sudo apt install'
 
-#Fedora
+#dnf
 #PACKAGE_MANAGER = 'sudo dnf install'
 
-#Gentoo
+#portage
 #PACKAGE_MANAGER = 'sudo emerge --ask'
 
-#Void
+#xbps
 #PACKAGE_MANAGER = 'sudo xbps-install'
 
 user = os.getlogin()
