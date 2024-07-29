@@ -1,7 +1,6 @@
 # dotter
 Dotter allows to install dotfiles from a `dotterfile` usually called `dotter.py` and switch between them while having all of them installed in a central package directory.
 # Setup
-1. Clone the repository
 ```
 sh -c "$(wget https://raw.githubusercontent.com/kuglatec/Dotter/main/install.sh -O -)"
 ```
