@@ -18,7 +18,7 @@ import pathlib
 #PACKAGE_MANAGER = 'sudo dnf install'
 
 #Gentoo
-#PACKAGE_MANAGER = 'sudo emerge -atv'
+#PACKAGE_MANAGER = 'sudo emerge --ask'
 
 #Void
 #PACKAGE_MANAGER = 'sudo xbps-install'
