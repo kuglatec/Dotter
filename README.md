@@ -3,16 +3,7 @@ Dotter allows to install dotfiles from a `dotterfile` usually called `dotter.py`
 # Setup
 1. Clone the repository
 ```
-git clone https://github.com/kuglatec/dotter
-cd dotter
-```
-2. Set your desired package manager in `main.py`
-```
-nano src/main.py
-```
-3. Run the installation script
-```
-sudo ./install.sh
+sh -c "$(wget https://raw.githubusercontent.com/kuglatec/Dotter/main/install.sh -O -)"
 ```
 # Usage
 ## Installing packages
