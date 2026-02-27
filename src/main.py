@@ -2,6 +2,7 @@
 from importlib.machinery import SourceFileLoader
 import sys
 import importlib
+import importlib.util
 import os
 import shutil
 import pathlib
@@ -39,7 +40,9 @@ def enable():
         return
 
     try:
-        mod = SourceFileLoader(fullname='dotter', path=dotterpath).load_module()
+        spec = importlib.util.spec_from_file_location('dotter', dotterpath)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
     
     except:
         print('Package may not be installed')
@@ -53,7 +56,9 @@ def enable():
     print('Module ' + mod.Name + ' enabled!')
 
 def install():
-    mod = importlib.import_module('dotter')
+    spec = importlib.util.spec_from_file_location('dotter', 'dotter.py')
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
     try:    
         try:
             depstr = PACKAGE_MANAGER
@@ -72,7 +77,6 @@ def install():
     else:
         print('[WARNING] Package directory already exists. Overwrite?')
         ovask = input('[Y/n]')
-        print(ovask)
         if ovask == 'n' or ovask == 'N':
             print('Installation aborted')
             return
@@ -97,7 +101,7 @@ def abort():
     print('Argument not found')
     return
 
-if sys.argv[1] == None:
+if len(sys.argv) < 2:
     abort()
 
 elif sys.argv[1] == 'install':
@@ -116,7 +120,7 @@ elif sys.argv[1] == 'remove':
         pkg = sys.argv[2]
     except:
         print('You have to specify a package to be removed')
-    
+        sys.exit(1)
 
     if input('Remove package ' + pkg + '? [Y/n]') != 'n':
         try:
