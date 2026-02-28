@@ -58,9 +58,14 @@ def enable():
 
     print('Package \'' + mod.Name + '\' enabled successfully!')
 
-def install():
+def _install_from_dir(directory):
+    dotterfile = os.path.join(directory, 'dotter.py')
+    if not os.path.isfile(dotterfile):
+        print('No dotter.py found in \'' + directory + '\'')
+        return False
+
     print('Loading dotterfile...')
-    spec = importlib.util.spec_from_file_location('dotter', 'dotter.py')
+    spec = importlib.util.spec_from_file_location('dotter', dotterfile)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     try:    
@@ -84,7 +89,7 @@ def install():
         ovask = input('[Y/n] ')
         if ovask == 'n' or ovask == 'N':
             print('Installation aborted')
-            return
+            return False
 
         elif mod.Name != '':
             print('Removing existing package \'' + mod.Name + '\'...')
@@ -93,16 +98,38 @@ def install():
         
     print('Copying config files for package \'' + mod.Name + '\'...')
     for config in mod.configs:      
-        src = mod.configs[config]['file']
+        src = os.path.join(directory, mod.configs[config]['file'])
         dst = '/home/' + user + '/dotter/pkgs/' + mod.Name + '/' + mod.configs[config]['pkgdest']
         destination_dir = os.path.dirname(dst)
         os.makedirs(destination_dir, exist_ok=True)
         shutil.copy(src, dst)
     
         print('  Installed: ' + config + ' -> ' + mod.configs[config]['pkgdest'])
-    shutil.copy('dotter.py', '/home/' + user + '/dotter/pkgs/' + mod.Name + '/' + 'dotter')
+    shutil.copy(dotterfile, '/home/' + user + '/dotter/pkgs/' + mod.Name + '/' + 'dotter')
     print('Package \'' + mod.Name + '\' installed successfully!')
     print('Run \'dotter enable ' + mod.Name + '\' to activate it.')
+    return True
+
+
+def install():
+    _install_from_dir(os.getcwd())
+
+
+def build():
+    try:
+        directory = sys.argv[2]
+    except IndexError:
+        print('You have to specify a directory to build from')
+        print('Usage: dotter build <directory>')
+        return
+
+    directory = os.path.realpath(directory)
+    if not os.path.isdir(directory):
+        print('Directory \'' + directory + '\' does not exist')
+        return
+
+    print('Building from directory \'' + directory + '\'...')
+    _install_from_dir(directory)
 
 
 def show_help():
@@ -112,12 +139,14 @@ def show_help():
     print('')
     print('Commands:')
     print('  install          Install dotfiles from a dotter.py file in the current directory')
+    print('  build <dir>      Install dotfiles from a dotter.py file in the specified directory')
     print('  enable <pkg>     Enable an installed package (create hard links to config files)')
     print('  remove <pkg>     Remove an installed package')
     print('  help             Show this help message')
     print('')
     print('Examples:')
     print('  dotter install')
+    print('  dotter build ~/dotfiles/i3')
     print('  dotter enable i3')
     print('  dotter remove i3')
     print('')
@@ -142,6 +171,14 @@ elif sys.argv[1] == 'install':
 
     else:
         print('Installation aborted!')
+        quit()
+
+elif sys.argv[1] == 'build':
+    if input('Build dotfiles from directory? [Y/n] ') != 'n':
+        build()
+
+    else:
+        print('Build aborted!')
         quit()
 
 elif sys.argv[1] == 'enable':
